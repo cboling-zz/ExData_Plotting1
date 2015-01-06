@@ -90,5 +90,5 @@ hist(table$Global_active_power, main='Global Active Power',
 
 # Copy display into PNG with appropriate name (stored in 'plotFile' variable)
 
-dev.copy(png, file=plotFile, width=640,height=480)
+dev.copy(png, file=plotFile, width=640, height=480)
 dev.off()

@@ -82,4 +82,14 @@ table <- table[table$Date_and_Time >= as.POSIXct(minDate, format=dtFormat) &
 
 #########################################################################################
 # Create the plot for this portion of the project
+#
+# Global Active Power over the days (line graph)
 
+plot( table$Date_and_Time, table$Global_active_power,main='', xlab='',
+      ylab='Global Active Power (kilowatts)', type='n')
+lines(table$Date_and_Time, table$Global_active_power)
+
+# Copy display into PNG with appropriate name (stored in 'plotFile' variable)
+
+dev.copy(png, file=plotFile, width=640, height=480)
+dev.off()
