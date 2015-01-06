@@ -44,12 +44,12 @@ library(data.table)
 #library(stringr)
 #library(plyr)
 #
+#################################################################################
 # Load the data, use read.table since fread has some issues with '?' as NA but the
 # workaround below is still orders of magnitude faster that read.table
 #
 dataFile <- './data/household_power_consumption.txt'
-#setAs("character","myDate", function(from) as.Date(from, format="%d/%m/%Y"))
-#setAs("character","myTime", function(from) strptime(from, format="%H:%M:%S"))
+
 # Read all as character and force to appropreate later.  fread has issues with '?'
 columns = c(
     "Date"                  ="character",
@@ -64,11 +64,24 @@ columns = c(
 
 table <- fread(dataFile, header=TRUE, na.strings=c("?", "", " "),colClasses=columns)
 table <- transform(table,
-                    Date_and_Time         = strptime(paste(Date, Time),format="%d/%m/%Y %H:%M:%S"),
-                    Global_active_power   = as.double(Global_active_power),
-                    Global_reactive_power = as.double(Global_reactive_power),
-                    Voltage               = as.double(Voltage),
-                    Global_intensity      = as.double(Global_intensity),
-                    Sub_metering_1        = as.double(Sub_metering_1),
-                    Sub_metering_2        = as.double(Sub_metering_2),
-                    Sub_metering_3        = as.double(Sub_metering_3))
+                   Date_and_Time        = strptime(paste(Date,Time),format="%d/%m/%Y %H:%M:%S"),
+                   Global_active_power  = as.double(Global_active_power),
+                   Global_reactive_power= as.double(Global_reactive_power),
+                   Voltage              = as.double(Voltage),
+                   Global_intensity     = as.double(Global_intensity),
+                   Sub_metering_1       = as.double(Sub_metering_1),
+                   Sub_metering_2       = as.double(Sub_metering_2),
+                   Sub_metering_3       = as.double(Sub_metering_3))
+
+# Get the dates that we care about 2007-02-01 and 2007-02-02 (2 days in February 2007)
+minDate <- '02-01-2007 00:00:00'
+maxDate <- '02-02-2007 23:59:59'
+dtFormat <- '%m-%d-%Y %H:%M:%S'
+
+table <- table[table$Date_and_Time >= as.POSIXct(minDate, format=dtFormat) &
+               table$Date_and_Time <= as.POSIXct(maxDate, format=dtFormat)]
+
+#########################################################################################
+# Create the plot for this portion of the project
+
+
