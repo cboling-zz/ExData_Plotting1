@@ -20,7 +20,7 @@
 # 1.Date:                 Date in format dd/mm/yyyy
 # 2.Time:                 time in format hh:mm:ss
 # 3.Global_active_power:  household global minute-averaged active power (in kilowatt)
-# 4.Global_reactive_power: household global minute-averaged reactive power (in kilowatt)
+# 4.Global_reactive_power:household global minute-averaged reactive power (in kilowatt)
 # 5.Voltage:              minute-averaged voltage (in volt)
 # 6.Global_intensity:     household global minute-averaged current intensity (in ampere)
 # 7.Sub_metering_1:       energy sub-metering No. 1 (in watt-hour of active energy). It
@@ -40,15 +40,14 @@
 #       Name each of the plot files as plot1.png, plot2.png, etc.
 #
 #################################################################################
+suppressPackageStartupMessages(library(data.table))
 library(data.table)
-#library(stringr)
-#library(plyr)
-#
 #################################################################################
 # Load the data, use read.table since fread has some issues with '?' as NA but the
 # workaround below is still orders of magnitude faster that read.table
 #
 dataFile <- './data/household_power_consumption.txt'
+plotFile <- './figure/plot1.png'
 
 # Read all as character and force to appropreate later.  fread has issues with '?'
 columns = c(
@@ -62,7 +61,7 @@ columns = c(
     "Sub_metering_2"        ="character",     # "double",
     "Sub_metering_3"        ="character")     # "double")
 
-table <- fread(dataFile, header=TRUE, na.strings=c("?", "", " "),colClasses=columns)
+table <- fread(dataFile, header=TRUE, na.strings=c("?", "", " "), colClasses=columns)
 table <- transform(table,
                    Date_and_Time        = strptime(paste(Date,Time),format="%d/%m/%Y %H:%M:%S"),
                    Global_active_power  = as.double(Global_active_power),
@@ -83,5 +82,13 @@ table <- table[table$Date_and_Time >= as.POSIXct(minDate, format=dtFormat) &
 
 #########################################################################################
 # Create the plot for this portion of the project
+#
+# Global Active Power
 
+hist(table$Global_active_power, main='Global Active Power',
+     xlab='Global Active Power (kilowatts)', col='red')
 
+# Copy display into PNG with appropriate name (stored in 'plotFile' variable)
+
+dev.copy(png, file=plotFile, width=640,height=480)
+dev.off()

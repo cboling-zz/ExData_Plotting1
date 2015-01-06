@@ -20,7 +20,7 @@
 # 1.Date:                 Date in format dd/mm/yyyy
 # 2.Time:                 time in format hh:mm:ss
 # 3.Global_active_power:  household global minute-averaged active power (in kilowatt)
-# 4.Global_reactive_power: household global minute-averaged reactive power (in kilowatt)
+# 4.Global_reactive_power:household global minute-averaged reactive power (in kilowatt)
 # 5.Voltage:              minute-averaged voltage (in volt)
 # 6.Global_intensity:     household global minute-averaged current intensity (in ampere)
 # 7.Sub_metering_1:       energy sub-metering No. 1 (in watt-hour of active energy). It
@@ -40,6 +40,7 @@
 #       Name each of the plot files as plot1.png, plot2.png, etc.
 #
 #################################################################################
+suppressPackageStartupMessages(library(data.table))
 library(data.table)
 #library(stringr)
 #library(plyr)
@@ -49,6 +50,7 @@ library(data.table)
 # workaround below is still orders of magnitude faster that read.table
 #
 dataFile <- './data/household_power_consumption.txt'
+plotFile <- './figure/plot4.png'
 
 # Read all as character and force to appropreate later.  fread has issues with '?'
 columns = c(
