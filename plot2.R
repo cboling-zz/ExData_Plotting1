@@ -42,15 +42,12 @@
 #################################################################################
 suppressPackageStartupMessages(library(data.table))
 library(data.table)
-#library(stringr)
-#library(plyr)
-#
 #################################################################################
 # Load the data, use read.table since fread has some issues with '?' as NA but the
 # workaround below is still orders of magnitude faster that read.table
 #
 dataFile <- './data/household_power_consumption.txt'
-plotFile <- './figure/plot2.png'
+plotFile <- './plot2.png'
 
 # Read all as character and force to appropreate later.  fread has issues with '?'
 columns = c(

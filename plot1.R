@@ -47,7 +47,7 @@ library(data.table)
 # workaround below is still orders of magnitude faster that read.table
 #
 dataFile <- './data/household_power_consumption.txt'
-plotFile <- './figure/plot1.png'
+plotFile <- './plot1.png'
 
 # Read all as character and force to appropreate later.  fread has issues with '?'
 columns = c(
