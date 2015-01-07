@@ -82,4 +82,46 @@ table <- table[table$Date_and_Time >= as.POSIXct(minDate, format=dtFormat) &
 
 #########################################################################################
 # Create the plot for this portion of the project
+#
+# Lay out by rows and 2x2
+
+par(mfrow = c(2,2))
+
+#############################
+# Top left
+
+plot( table$Date_and_Time, table$Global_active_power, main='',
+      xlab='', ylab='Global Active Power', type='n')
+lines(table$Date_and_Time, table$Global_active_power)
+
+#############################
+# Top Right
+
+plot( table$Date_and_Time, table$Voltage, main='',
+      xlab='datetime', ylab='Voltage', type='n')
+lines(table$Date_and_Time, table$Voltage)
+
+#############################
+# Bottom Left
+
+plot( table$Date_and_Time, table$Sub_metering_1,
+      main='', xlab='', ylab='Energy sub metering', type='n')
+lines(table$Date_and_Time, table$Sub_metering_1)
+lines(table$Date_and_Time, table$Sub_metering_2, col='red')
+lines(table$Date_and_Time, table$Sub_metering_3, col='blue')
+legend('topright', col=c('black','red','blue'), box.lwd=0,
+       legend=c('Sub_metering_1', 'Sub_metering_2', 'Sub_metering_3'),
+       lwd=c(2.5,2.5,2.5))
+
+#############################
+# Bottom Right
+
+plot( table$Date_and_Time, table$Global_reactive_power, main='',
+      xlab='datetime', ylab='Global_reactive_power', type='n')
+lines(table$Date_and_Time, table$Global_reactive_power)
+
+# Copy display into PNG with appropriate name (stored in 'plotFile' variable)
+
+dev.copy(png, file=plotFile, width=640, height=480)
+dev.off()
 
